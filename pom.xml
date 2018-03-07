@@ -36,6 +36,8 @@
 		<org.apache.commons.collection4.version>4.0</org.apache.commons.collection4.version>
 		<commons.io.version>2.4</commons.io.version>
 		<com.google.guava.version>19.0</com.google.guava.version>
+		
+		<docker.image.prefix>ecommerce</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -78,6 +80,18 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.3.6</version>
+                <configuration>
+                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                    <!--<tag>${project.version}</tag>-->
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
 		</plugins>
 
 	</build>
