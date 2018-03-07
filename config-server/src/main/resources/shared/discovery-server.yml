@@ -1,0 +1,44 @@
+info:
+  component: Eureka Server
+
+server:
+  port: ${PORT:8761}
+
+logging:
+  file: ${user.home}/Downloads/log/discovery-server.log
+  level:
+    ROOT: INFO
+
+eureka:
+  client:
+    region: default
+    registerWithEureka: false
+    fetchRegistry: false
+    registryFetchIntervalSeconds: 5
+#    useDnsForFetchingServiceUrls: true
+#    prefer-ip-address: false
+    availabilityZones:
+      default: ${APPLICATION_DOMAIN:${DOMAIN:defaultZone}}
+    serviceUrl:
+      defaultZone: http://${DISCOVERY_SERVER_URL:localhost}:8761/eureka/
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+security:
+  basic:
+    enabled: true
+  user:
+      name: ${EUREKA_USERNAME:user}
+      password: ${EUREKA_PASSWORD:12345}
+---
+spring:
+  profiles: test
+
+logging:
+  file: ${user.home}/ecom-logs/discovery-server.log
+
+---
+spring:
+  profiles: cloud
+
+logging:
+  file: ${user.home}/ecom-logs/discovery-server.log

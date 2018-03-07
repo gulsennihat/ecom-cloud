@@ -1,0 +1,92 @@
+logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"
+  level:
+    ROOT: DEBUG
+    org.apache.http: WARN
+    com.netflix: WARN
+    sun.rmi.transport.tcp: WARN
+    org.springframework:  WARN
+    org.hibernate: WARN
+    feign: WARN
+    com.datastax.driver.core.QueryLogger.NORMAL: DEBUG
+    com.datastax.driver.core.QueryLogger.SLOW: TRACE
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+        timeout:
+          enabled: false
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 240000
+eureka:
+  instance:
+#      leaseRenewalIntervalInSeconds: 1
+#      leaseExpirationDurationInSeconds: 2
+#      prefer-ip-address: true
+      hostname: ${APPLICATION_DOMAIN:${spring.application.name}}
+      status-page-url-path: /actuator/info
+      health-check-url-path: /actuator/health
+      
+  client:
+    serviceUrl:
+      defaultZone: http://${DISCOVERY_SERVER_URL:localhost}:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+
+management.security.enabled: false
+
+redis:
+  host: ${REDIS_HOST_IP:127.0.0.1}
+  port: ${REDIS_HOST_PORT:6379}
+  password: ${REDIS_HOST_PASSWORD:}
+  pool:
+    maxIdle: 8
+    minIdle: 0
+    maxActive: -1
+    maxWait: 10000
+    
+---
+spring:
+  profiles: test
+
+eureka:
+  instance:
+      hostname: ${APPLICATION_DOMAIN:${spring.application.name}}
+      nonSecurePort: 80
+  client:
+    serviceUrl:
+      defaultZone: http://${DISCOVERY_SERVER_URL:localhost}:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+
+---
+spring:
+  profiles: cloud
+
+eureka:
+  instance:
+      hostname: ${APPLICATION_DOMAIN:${spring.application.name}}
+      nonSecurePort: 80
+  client:
+    serviceUrl:
+      defaultZone: http://${DISCOVERY_SERVER_URL:localhost}:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+
+logging:
+  level:
+    ROOT: INFO

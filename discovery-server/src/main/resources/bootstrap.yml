@@ -1,0 +1,11 @@
+spring:
+  application:
+      name: discovery-server
+  config:
+      name: discovery-server
+  cloud:
+      config:
+        uri: ${CONFIG_SERVER_URL:http://localhost:8888}
+        password: ${CONFIG_SERVER_PASSWORD:12345}
+        username: user
+#        fail-fast: true

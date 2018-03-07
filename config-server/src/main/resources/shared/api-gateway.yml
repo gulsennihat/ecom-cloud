@@ -1,0 +1,31 @@
+info:
+  component: Api Gateway
+
+server:
+  port: ${PORT:8765}
+
+logging:
+  file: ${user.home}/Downloads/log/api-gateway.log
+
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 120000
+
+zuul:
+  host:
+    connect-timeout-millis: 30000
+    socket-timeout-millis: 30000
+
+---
+spring:
+  profiles: test
+
+logging:
+  file: ${user.home}/ecom-logs/api-gateway.log
+
+---
+spring:
+  profiles: cloud
+
+logging:
+  file: ${user.home}/ecom-logs/api-gateway.log
