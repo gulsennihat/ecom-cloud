@@ -1,6 +1,5 @@
 # README #
 
-Turkcell-Saha System
 
 ## Micro Services And Ports
 #### Cloud  Micro Services
